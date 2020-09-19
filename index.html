@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Typing</title>
+    <style type="text/css">
+      #root {
+        height: 300px;
+        width: 300px;
+        margin: 10px;
+        border: 1px dashed red;
+      }
+    </style>
+    <script lang="javascript">
+        const questions =  ["hello", "hogehoge"];
+        var startFlag = false;
+      function init(){
+        console.log("mount!")
+        document.body.addEventListener('keydown',
+        event => {
+            if(event.code === 'Space' && startFlag === false ){
+                startFlag = true;
+                ctdMes(3);
+            }
+            console.log(event)
+        })
+      }
+
+      // CountDown
+
+      // For async function
+      function asyncMes(mes, ms ) {
+          return new Promise ( resolve =>
+          setTimeout( () => {
+              printMessage(mes);
+              resolve();
+          },ms))
+      }
+
+      // For async Main function
+      async function ctdMes(startNum){
+          printMessage(startNum--);
+          while(startNum >0 ){
+              console.log(startNum)
+              const res = await asyncMes(startNum, 1000);
+              startNum--;
+          }
+      }
+
+
+      function showQuestion(input){
+          console.log(input.innerHTML)
+         // input.innerHTML = questions[0]
+      }
+
+      function printMessage(mes){
+          document.getElementById('root').innerHTML = mes;
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="root" onclick="showQuestion(this)">
+      スペースバーを押すと始まります。
+    </div>
+  </body>
+</html>
