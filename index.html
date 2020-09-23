@@ -14,8 +14,13 @@
 
     <script lang="javascript">
         const questions =  ["hello", "hogehoge"];
-        qFin=""
-        qLeast = questions[0];
+        counter=0;
+
+        function refreshQuestion(){
+            qFin=""
+            qLeast = questions[counter];
+
+        }
 
         function firstStep(event){
             // Remove First Listener
@@ -24,6 +29,7 @@
                 ctdMes(3)
             ).done(function(){
                 $.when(
+                    refreshQuestion(),
                     document.body.addEventListener('keydown',startGame),
                     document.getElementById('question').innerHTML = qLeast,
                     countDownTimer(60),
@@ -46,6 +52,10 @@
                 $.when(
                     checkChar(event.key)
                 ).done(function(){
+                    if(qLeast.length === 0 ){
+                        counter++
+                        refreshQuestion();
+                    }
                     document.getElementById('question').innerHTML = "<span style='color:red'>" + qFin + "</span>" + qLeast;
                 })
                 }
