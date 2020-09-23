@@ -15,6 +15,8 @@
     <script lang="javascript">
         const questions =  ["hello", "hogehoge"];
         counter=0;
+        rightCounter=0;
+        ngCounter=0;
 
         function refreshQuestion(){
             qFin=""
@@ -32,10 +34,15 @@
                     refreshQuestion(),
                     document.body.addEventListener('keydown',startGame),
                     document.getElementById('question').innerHTML = qLeast,
-                    countDownTimer(60),
+                    countDownTimer(10),
                 ).done(function(){
                     document.body.removeEventListener('keydown',startGame),
-                    alert("Finished!!")
+                    document.getElementById("question").innerHTML =""
+                    alert("Finished!!"),
+                    $('#result').append("<div>RightCounter:" + rightCounter + "</div>"),
+                    $('#result').append("<div>NGCounter:" + ngCounter + "</div>"),
+                    console.log("rightCounter" + rightCounter),
+                    console.log("ngCounter" + ngCounter),
                     document.getElementById('timer').innerHTML =""
                 })
               })
@@ -43,8 +50,11 @@
             function checkChar(chr){
                 if ( chr === qLeast.split('')[0]){
                     console.log("ok")
+                    rightCounter++
                     qFin += qLeast.split('')[0]
                     qLeast = qLeast.slice(1);
+                }else{
+                    ngCounter++
                 }
             }
 
@@ -160,6 +170,7 @@
       <div id="countdown">スペースバーを押すと始まります。</div>
       <div id="question"></div>
       <div id="timer"></div>
+      <div id="result"></div>
     </div>
   </body>
 </html>
