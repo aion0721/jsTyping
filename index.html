@@ -14,6 +14,7 @@
 
     <script lang="javascript">
         const questions =  ["hello", "hogehoge"];
+        qLeast = questions[0];
 
         function firstStep(event){
             // Remove First Listener
@@ -23,7 +24,7 @@
             ).done(function(){
                 $.when(
                     document.body.addEventListener('keydown',startGame),
-              document.getElementById('question').innerHTML = questions[0],
+                    document.getElementById('question').innerHTML = qLeast,
                     countDownTimer(5),
                 ).done(function(){
                     document.body.removeEventListener('keydown',startGame),
@@ -33,9 +34,14 @@
               })
             }
 
-            function startGame(){
-                console.log("startgame")
-            }
+            function startGame(event){
+                if ( event.key === qLeast.split('')[0]){
+                    console.log("ok")
+                    qFin = [...qLeast.split('')[0]]
+                    qLeast = qLeast.slice(1);
+                }
+                document.getElementById('question').innerHTML = qFin + qLeast;
+                }
 
             function countDownTimer(timer){
                 document.getElementById('timer').innerHTML = timer;
