@@ -10,18 +10,89 @@
         border: 1px dashed red;
       }
     </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
     <script lang="javascript">
         const questions =  ["hello", "hogehoge"];
-        var startFlag = false;
-      function init(){
+
+        function firstStep(event){
+            // Remove First Listener
+            $.when(
+                document.body.removeEventListener('keydown',firstStep),
+                ctdMes(3)
+            ).done(function(){
+                $.when(
+                    document.body.addEventListener('keydown',startGame),
+                    countDownTimer(60),
+                ).done(function(){
+                    document.body.removeEventListener('keydown',startGame),
+                    console.log("FINISHED!")
+                })
+              document.getElementById('question').innerHTML = questions[0]
+              })
+            }
+
+            function startGame(){
+                console.log("startgame")
+            }
+
+            function countDownTimer(timer){
+                var d = $.Deferred();
+                document.getElementById('timer').innerHTML = timer;
+                while ( timer > 0){
+                setTimeout(function(){
+                console.log("cntdwntimer");
+                    d.resolve();
+                }, 5000);
+                }
+                return d.promise();
+            }
+
+        $(function(){
+            document.body.addEventListener('keydown',firstStep);
+        })
+
+        function initializeFunction(){
+            return new Promise((resolve, reject) => {
+                setTimeout( () => {
+                    console.log('a');
+                    resolve();
+                },1000)
+            })
+        }
+
+        function mainFunction(){
+            return new Promise ( (resolve, reject) => {
+                setTimeout( () => {
+                console.log('b');
+                resolve();
+
+                },1000)
+            })
+        }
+
+      async function init(){
+      // 開始処理部分
+        //StartCountDown
+            await initializeFunction();
+            await mainFunction();
+      // 処理部分
+        // EventHandler
+
+        //  Countdown
+
+      // 終了処理部分
+
+        // Calculate
         console.log("mount!")
         document.body.addEventListener('keydown',
         event => {
             if(event.code === 'Space' && startFlag === false ){
                 startFlag = true;
-                ctdMes(3);
+                 ctdMes(3);
             }
             console.log(event)
+
         })
       }
 
@@ -37,29 +108,49 @@
       }
 
       // For async Main function
-      async function ctdMes(startNum){
+      function ctdMes(startNum){
+          return new Promise( async (resolve,reject) => {
+
+          document.getElementById('startButton').style.display="none";
           printMessage(startNum--);
           while(startNum >0 ){
-              console.log(startNum)
+              //console.log(startNum)
               const res = await asyncMes(startNum, 1000);
               startNum--;
           }
+              const res1 = await asyncMes("", 1000);
+            await resolve();
+          })
+
       }
 
 
-      function showQuestion(input){
-          console.log(input.innerHTML)
-         // input.innerHTML = questions[0]
+      function showQuestion(){
+          return new Promise(( resolve,reject) => {
+              document.getElementById('question').innerHTML = questions[0]
+              resolve();
+          })
       }
 
       function printMessage(mes){
-          document.getElementById('root').innerHTML = mes;
+          document.getElementById('countdown').innerHTML = mes;
       }
+
+
+      async function startButtonClicked(){
+          await ctdMes(3);
+          await showQuestion()
+        }
     </script>
   </head>
-  <body onload="init()">
+  <body>
     <div id="root" onclick="showQuestion(this)">
-      スペースバーを押すと始まります。
+      <button id="startButton" onclick="startButtonClicked()">
+        ボタンをクリックすると始まります
+      </button>
+      <div id="countdown">スペースバーを押すと始まります。</div>
+      <div id="question"></div>
+      <div id="timer"></div>
     </div>
   </body>
 </html>
