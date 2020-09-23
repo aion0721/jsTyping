@@ -21,14 +21,13 @@
         function refreshQuestion(){
             qFin=""
             qLeast = questions[counter];
-
         }
 
         function firstStep(event){
             // Remove First Listener
             $.when(
                 document.body.removeEventListener('keydown',firstStep),
-                ctdMes(3)
+                startMsg(3)
             ).done(function(){
                 $.when(
                     refreshQuestion(),
@@ -89,52 +88,6 @@
             document.body.addEventListener('keydown',firstStep);
         })
 
-        function initializeFunction(){
-            return new Promise((resolve, reject) => {
-                setTimeout( () => {
-                    console.log('a');
-                    resolve();
-                },1000)
-            })
-        }
-
-        function mainFunction(){
-            return new Promise ( (resolve, reject) => {
-                setTimeout( () => {
-                console.log('b');
-                resolve();
-
-                },1000)
-            })
-        }
-
-      async function init(){
-      // 開始処理部分
-        //StartCountDown
-            await initializeFunction();
-            await mainFunction();
-      // 処理部分
-        // EventHandler
-
-        //  Countdown
-
-      // 終了処理部分
-
-        // Calculate
-        console.log("mount!")
-        document.body.addEventListener('keydown',
-        event => {
-            if(event.code === 'Space' && startFlag === false ){
-                startFlag = true;
-                 ctdMes(3);
-            }
-            console.log(event)
-
-        })
-      }
-
-      // CountDown
-
       // For async function
       function asyncMes(mes, ms ) {
           return new Promise ( resolve =>
@@ -145,7 +98,7 @@
       }
 
       // For async Main function
-      function ctdMes(startNum){
+      function startMsg(startNum){
           return new Promise( async (resolve,reject) => {
 
           printMessage(startNum--);
