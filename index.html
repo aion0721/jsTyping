@@ -54,12 +54,10 @@
                 ).done(function(){
                     document.body.removeEventListener('keydown',startGame),
                     document.getElementById("question").innerHTML =""
+                    document.getElementById("target").innerHTML =""
+                    document.getElementById('timer').innerHTML ="",
                     alert("Finished!!"),
-                    $('#result').append("<div>RightCounter:" + rightCounter + "</div>"),
-                    $('#result').append("<div>NGCounter:" + ngCounter + "</div>"),
-                    console.log("rightCounter" + rightCounter),
-                    console.log("ngCounter" + ngCounter),
-                    document.getElementById('timer').innerHTML =""
+                    showResult()
                 })
               })
             }
@@ -89,7 +87,13 @@
             function showQuestion(){
                     document.getElementById('question').innerHTML = "<span style='color:red'>" + qFin + "</span>" + qLeast;
                     document.getElementById('target').innerHTML = "<span style='color:blue'>" + qJapanese + "</span>";
+            }
 
+            function showResult(){
+                    $('#result').append("<div>RightCounter:" + rightCounter + "</div>");
+                    $('#result').append("<div>NGCounter:" + ngCounter + "</div>");
+                    console.log("rightCounter" + rightCounter);
+                    console.log("ngCounter" + ngCounter);
             }
             function countDownTimer(timer){
                 document.getElementById('timer').innerHTML = timer;
