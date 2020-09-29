@@ -8,6 +8,14 @@
         width: 300px;
         margin: 10px;
         border: 1px dashed red;
+        position: relative;
+      }
+
+      .cnt {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
       }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -154,11 +162,13 @@
   </head>
   <body>
     <div id="root">
-      <div id="countdown">スペースバーを押すと始まります。</div>
-      <div id="question"></div>
       <div id="timer"></div>
-      <div id="target"></div>
-      <div id="result"></div>
+      <div id="q" class="cnt">
+        <div id="countdown">スペースバーを押すと始まります。</div>
+        <div id="question"></div>
+        <div id="target"></div>
+        <div id="result"></div>
+      </div>
     </div>
   </body>
 </html>
