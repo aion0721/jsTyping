@@ -13,14 +13,30 @@
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <script lang="javascript">
-        const questions =  ["hello", "hogehoge"];
+        //const questions =  ["hello", "hogehoge"];
+        const questions = [
+            {'qEng':'konnnitiha',
+            'qJap': 'こんにちは'
+            },
+            {'qEng':'haro-',
+            'qJap': 'はろー'
+            },
+            {'qEng':'tesuto',
+            'qJap': 'てすと'
+            },
+            {'qEng':'bikkuri',
+            'qJap': 'びっくり'
+            },
+        ]
+
         counter=0;
         rightCounter=0;
         ngCounter=0;
 
         function refreshQuestion(){
             qFin=""
-            qLeast = questions[counter];
+            qLeast = questions[counter]['qEng'];
+            qJapanese = questions[counter]['qJap'];
         }
 
         function firstStep(event){
@@ -32,7 +48,8 @@
                 $.when(
                     refreshQuestion(),
                     document.body.addEventListener('keydown',startGame),
-                    document.getElementById('question').innerHTML = qLeast,
+                    //document.getElementById('question').innerHTML = qLeast,
+                    showQuestion(),
                     countDownTimer(10),
                 ).done(function(){
                     document.body.removeEventListener('keydown',startGame),
@@ -65,10 +82,15 @@
                         counter++
                         refreshQuestion();
                     }
-                    document.getElementById('question').innerHTML = "<span style='color:red'>" + qFin + "</span>" + qLeast;
+                    showQuestion()
                 })
                 }
 
+            function showQuestion(){
+                    document.getElementById('question').innerHTML = "<span style='color:red'>" + qFin + "</span>" + qLeast;
+                    document.getElementById('target').innerHTML = "<span style='color:blue'>" + qJapanese + "</span>";
+
+            }
             function countDownTimer(timer){
                 document.getElementById('timer').innerHTML = timer;
                 var d = $.Deferred();
@@ -85,8 +107,16 @@
             }
 
         $(function(){
-            document.body.addEventListener('keydown',firstStep);
+            //document.body.addEventListener('keydown',()=>{console.log(event) ; firstStep});
+            document.body.addEventListener('keydown',checkSpaceKey);
         })
+
+        function checkSpaceKey(event){
+            if(event.code === 'Space'){
+                firstStep(event);
+            }
+        }
+
 
       // For async function
       function asyncMes(mes, ms ) {
@@ -123,6 +153,7 @@
       <div id="countdown">スペースバーを押すと始まります。</div>
       <div id="question"></div>
       <div id="timer"></div>
+      <div id="target"></div>
       <div id="result"></div>
     </div>
   </body>
