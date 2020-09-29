@@ -5,10 +5,18 @@
     <style type="text/css">
       #root {
         height: 300px;
-        width: 300px;
+        width: 500px;
         margin: 10px;
+        padding: 10px;
         border: 1px dashed red;
         position: relative;
+        background-color: gray;
+        border-radius: 10px;
+      }
+      #inner {
+        background-color: white;
+        height: 100%;
+        width: 100%;
       }
 
       .cnt {
@@ -162,12 +170,14 @@
   </head>
   <body>
     <div id="root">
-      <div id="timer"></div>
-      <div id="q" class="cnt">
-        <div id="countdown">スペースバーを押すと始まります。</div>
-        <div id="question"></div>
-        <div id="target"></div>
-        <div id="result"></div>
+      <div id="inner">
+        <div id="timer"></div>
+        <div id="q" class="cnt">
+          <div id="countdown">スペースバーを押すと始まります。</div>
+          <div id="question"></div>
+          <div id="target"></div>
+          <div id="result"></div>
+        </div>
       </div>
     </div>
   </body>
