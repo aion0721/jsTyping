@@ -5,22 +5,54 @@
     <style type="text/css">
       #root {
         height: 300px;
-        width: 300px;
+        width: 500px;
         margin: 10px;
+        padding: 10px;
         border: 1px dashed red;
+        position: relative;
+        background-color: gray;
+        border-radius: 10px;
+      }
+      #inner {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+      }
+
+      .cnt {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
       }
     </style>
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
     <script lang="javascript">
-        const questions =  ["hello", "hogehoge"];
+        //const questions =  ["hello", "hogehoge"];
+        const questions = [
+            {'qEng':'konnnitiha',
+            'qJap': 'こんにちは'
+            },
+            {'qEng':'haro-',
+            'qJap': 'はろー'
+            },
+            {'qEng':'tesuto',
+            'qJap': 'てすと'
+            },
+            {'qEng':'bikkuri',
+            'qJap': 'びっくり'
+            },
+        ]
+
         counter=0;
         rightCounter=0;
         ngCounter=0;
 
         function refreshQuestion(){
             qFin=""
-            qLeast = questions[counter];
+            qLeast = questions[counter]['qEng'];
+            qJapanese = questions[counter]['qJap'];
         }
 
         function firstStep(event){
@@ -32,17 +64,16 @@
                 $.when(
                     refreshQuestion(),
                     document.body.addEventListener('keydown',startGame),
-                    document.getElementById('question').innerHTML = qLeast,
+                    //document.getElementById('question').innerHTML = qLeast,
+                    showQuestion(),
                     countDownTimer(10),
                 ).done(function(){
                     document.body.removeEventListener('keydown',startGame),
                     document.getElementById("question").innerHTML =""
+                    document.getElementById("target").innerHTML =""
+                    document.getElementById('timer').innerHTML ="",
                     alert("Finished!!"),
-                    $('#result').append("<div>RightCounter:" + rightCounter + "</div>"),
-                    $('#result').append("<div>NGCounter:" + ngCounter + "</div>"),
-                    console.log("rightCounter" + rightCounter),
-                    console.log("ngCounter" + ngCounter),
-                    document.getElementById('timer').innerHTML =""
+                    showResult()
                 })
               })
             }
@@ -65,10 +96,21 @@
                         counter++
                         refreshQuestion();
                     }
-                    document.getElementById('question').innerHTML = "<span style='color:red'>" + qFin + "</span>" + qLeast;
+                    showQuestion()
                 })
                 }
 
+            function showQuestion(){
+                    document.getElementById('question').innerHTML = "<span style='color:red'>" + qFin + "</span>" + qLeast;
+                    document.getElementById('target').innerHTML = "<span style='color:blue'>" + qJapanese + "</span>";
+            }
+
+            function showResult(){
+                    $('#result').append("<div>RightCounter:" + rightCounter + "</div>");
+                    $('#result').append("<div>NGCounter:" + ngCounter + "</div>");
+                    console.log("rightCounter" + rightCounter);
+                    console.log("ngCounter" + ngCounter);
+            }
             function countDownTimer(timer){
                 document.getElementById('timer').innerHTML = timer;
                 var d = $.Deferred();
@@ -85,8 +127,16 @@
             }
 
         $(function(){
-            document.body.addEventListener('keydown',firstStep);
+            //document.body.addEventListener('keydown',()=>{console.log(event) ; firstStep});
+            document.body.addEventListener('keydown',checkSpaceKey);
         })
+
+        function checkSpaceKey(event){
+            if(event.code === 'Space'){
+                firstStep(event);
+            }
+        }
+
 
       // For async function
       function asyncMes(mes, ms ) {
@@ -120,10 +170,15 @@
   </head>
   <body>
     <div id="root">
-      <div id="countdown">スペースバーを押すと始まります。</div>
-      <div id="question"></div>
-      <div id="timer"></div>
-      <div id="result"></div>
+      <div id="inner">
+        <div id="timer"></div>
+        <div id="q" class="cnt">
+          <div id="countdown">スペースバーを押すと始まります。</div>
+          <div id="question"></div>
+          <div id="target"></div>
+          <div id="result"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
